@@ -26,17 +26,6 @@ Building on these empirical insights, we show that incorporating image-aware adj
 
 Stay tuned for updates!
 
-## Citation
-
-```bibtex
-@inproceedings{baek2026adavtp,
-  title={An Empirical Study of Attention and Diversity for Adaptive Visual Token Pruning in Large Vision-Language Models},
-  author={Baek, Changwoo and Song, Jouwon and Kim, Sohyeon and Kong, Kyeongbo},
-  booktitle={International Conference on Learning Representations (ICLR)},
-  year={2026}
-}
-```
-
 ## Contact
 
 For questions or collaborations, please contact:
