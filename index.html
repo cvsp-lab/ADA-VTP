@@ -1,11 +1,351 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adaptive Visual Token Pruning in Large Vision Language Models</title>
+  <meta charset="utf-8" />
+  <meta name="description" content="An Empirical Study of Attention and Diversity for Adaptive Visual Token Pruning in Large Vision-Language Models" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>An Empirical Study of Attention and Diversity for Adaptive Visual Token Pruning</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  
+  <style>
+    body {
+        font-family: 'Noto Sans', sans-serif;
+    }
+    .publication-title {
+        font-family: 'Google Sans', sans-serif;
+    }
+    .content p, .content ul {
+        text-align: justify;
+    }
+    .content {
+        font-size: 1.1rem;
+    }
+  </style>
+
 </head>
 <body>
-    <h1>Hello World</h1>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              An Empirical Study of Attention and Diversity for Adaptive Visual Token Pruning in Large Vision-Language Models
+            </h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Anonymous Authors</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content">
+            <p>
+              Large Vision-Language Models (LVLMs) have adopted visual token pruning strategies to mitigate substantial computational overhead incurred by extensive visual token sequences. While prior works primarily focus on either attention-based or diversity-based pruning methods,  in-depth analysis of these approaches' characteristics and limitations remains largely unexplored. In this work, we conduct thorough empirical analysis using effective rank (erank) as a measure of feature diversity and attention score entropy to investigate visual token processing mechanisms and analyze the strengths and weaknesses of each approach. Our analysis reveals two insights:  (1) Our erank-based quantitative analysis shows that many diversity-oriented pruning methods  preserve substantially less feature diversity than intended; moreover, analysis using the CHAIR  dataset reveals that the diversity they do retain is closely tied to increased hallucination 
+              frequency compared to attention-based pruning.  (2) We further observe that attention-based approaches are more effective on simple images where  visual evidence is concentrated, while diversity-based methods better handle complex images with  distributed features.  Building on these empirical insights, we show that incorporating image-aware adjustments into existing hybrid pruning strategies consistently improves their performance.  We also provide a minimal instantiation of our empirical findings through a simple adaptive 
+              pruning mechanism, which achieves strong and reliable performance across standard benchmarks as  well as hallucination-specific evaluations.
+              <!-- Large Vision-language models (LVLMs) have adopted visual token pruning strategies to mitigate substantial computational overhead. While prior works focus on either attention-based or diversity-based pruning, their characteristics and limitations remain unexplored. We conduct a thorough empirical analysis using effective rank (erank) and attention entropy to analyze their strengths and weaknesses. Our analysis reveals two key insights: (1) Attention-based methods excel on simple images with concentrated information, while diversity-based methods are superior for complex images with distributed features. (2) In hallucination analysis, attention-based methods are more conservative and generate fewer false objects, whereas diversity-based methods produce more exploratory responses at a higher risk of hallucination. Based on these findings, we propose a novel adaptive pruning framework that delivers consistent high performance across standard and hallucination-specific benchmarks. -->
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Insight 1 -->
+
+  <section class="hero is-small is-white">
+      <div class="hero-body">
+      <div class="container is-four-fifths">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 has-text-centered">Impact of Image Complexity on Token Selection</h2>
+            <div class="content">
+              <p>Our analysis reveals that the ideal token selection strategy is dictated by image complexity. We found a clear divergence in performance based on the characteristics of the image:</p>
+              <ul>
+                <li><strong>Simple Images:</strong> Images with concentrated information (e.g., OCR tasks) exhibit low attention entropy and feature diversity (erank). For these, <strong>attention-based methods</strong> are more effective as they can easily select the few most important tokens.</li>
+                <li><strong>Complex Images:</strong> Scenes with multiple objects and varied backgrounds show higher attention entropy and erank, indicating dispersed information. In these cases, <strong>diversity-based methods</strong> perform better by capturing a broader range of features and preventing the loss of crucial context.</li>
+              </ul>
+            </div>
+            <br/>
+            <!-- <div class="has-text-centered">
+                <img src="s1.png" alt="Comparison of token selection on simple and complex images" />
+            </div> -->
+            <video poster="" id="tree1" controls autoplay height="100%">
+              <source src="s111.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+      </div>
+  </section>
+
+  <!-- Key Insight 2 -->
+  <section class="hero is-small is-light">
+    <div class="hero-body">
+      <div class="container is-four-fifths">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 has-text-centered">Pruning Methods and Hallucination</h2>
+            <div class="content">
+              <p>Object hallucination is a critical issue undermining the reliability of LVLMs. Our analysis on the CHAIR dataset reveals a distinct trade-off between attention-based and diversity-based pruning methods:</p>
+              <ul>
+                <li><strong>Diversity-Based Pruning:</strong> These methods achieve <strong>higher recall</strong> by capturing a wider range of objects. However, this comes at the cost of a <strong>higher tendency for hallucination</strong>, producing more descriptive but less reliable captions.</li>
+                <li><strong>Attention-Based Pruning:</strong> These methods are more <strong>conservative and reliable</strong>. They focus on tokens with high attention scores, which significantly <strong>reduces hallucination rates</strong>, though sometimes at the expense of lower recall.</li>
+              </ul>
+            </div>
+            <br/>
+            <!-- <div class="has-text-centered">
+                <img src="s22.png" alt="Placeholder image for Pruning Methods and Hallucination" />
+            </div> -->
+            <video poster="" id="tree2" controls muted height="100%">
+              <source src="s21.mp4" type="video/mp4" />
+            </video>
+            <br/>
+            <h3 class="title is-4 has-text-centered" style="margin-top: 10px;">Response patterns of DivPrune (diversity-based) vs. FasterVLM (attention-based).</h2>
+
+            <video poster="" id="tree3" controls muted height="100%">
+              <source src="s2_22.mp4" type="video/mp4" />
+            </video>
+            <br/>
+            <h3 class="title is-4 has-text-centered" style="margin-top: 10px;">Effect of attention scores on object hallucination.</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Insight 3 -->
+    <!-- Key Insight 3 -->
+    <section class="hero is-small is-white">
+    <div class="hero-body">
+      <div class="container is-four-fifths">
+        <div class="columns is-centered">
+            <div class="column is-four-fifths">
+            <h2 class="title is-3 has-text-centered">Analysis-driven enhancement of pruning methods</h2>
+            <div class="content">
+              <figure class="image is-3by1" style="margin-bottom: 1.5rem; text-align:center;">
+                <img src="tttt.png" alt="">
+              </figure>
+              <p>
+                To prove that our findings are not tied to a specific algorithm, we applied the erank-guided linear mapping to existing fixed-ratio hybrid methods (such as BAT and VisPruner) and heterogeneous mixtures (FasterVLM + DivPrune).
+              </p>
+
+              <p>
+               Applying to existing fixed-ratio hybrid methods (BAT and VisPruner)
+              </p>
+
+              <ul>
+                <li><strong>Adaptive Rule (Ours):</strong>
+                  our adaptive rule consistently improves performance
+                </li>
+                <li><strong>Inverse Rule:</strong>
+                  the inverse rule (which contradicts the discovered image-complexity trend) consistently reduces performance.
+                </li>
+              </ul> 
+
+              <p>
+               Applying toheterogeneous mixtures (FasterVLM + DivPrune).
+              </p>
+
+              <ul>
+                <li>
+                  This combination also benefited from the erank-guided rule, showing that the principle is model-agnostic and reflects general LVLM pruning behavior.
+                </li>
+              </ul>
+            </div>
+            <br/>
+            <!-- <video poster="" id="tree4" controls muted height="100%">
+              <source src="s33.mp4" type="video/mp4" /> -->
+            </video>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <section class="hero is-small is-white">
+    <div class="hero-body">
+      <div class="container is-four-fifths">
+        <div class="columns is-centered">
+            <div class="column is-four-fifths">
+            <h2 class="title is-3 has-text-centered">Towards Adaptive Token Similarity Thresholding</h2>
+            <div class="content">
+              <figure class="image is-3by1" style="margin-bottom: 1.5rem; text-align:center;">
+                <img src="s3.png" alt="">
+              </figure>
+              <p>
+                Our method follows a simple pruning procedure:
+                <strong>high-attention tokens are selected first</strong>, and
+                all candidate tokens whose <strong>cosine distance is below a similarity threshold (τ)</strong>
+                to a selected token are removed. The threshold τ directly controls the
+                <em>diversity</em> of the final token set.
+              </p>
+
+              <p>
+                Building on our empirical analysis, we design a <strong>statistics-driven adaptive strategy</strong>
+                that automatically adjusts to image complexity using the effective rank (erank) of image features.
+                For each token <em>i</em>, we define a dynamic threshold based on the normalized image complexity:
+              </p>
+
+              <p style="text-align: center;">
+                $$ \tau_i = \text{order}_i \cdot \frac{\text{erank}_{\text{input}}}{\text{erank}_{\text{avg}}} \cdot 0.01,\quad
+                \tau_i \le \tau_{\max} $$
+              </p>
+
+              <ul>
+                <li><strong>Complex images (\(\text{erank}_{\text{input}} &gt; \text{erank}_{\text{avg}}\)):</strong>
+                  A larger scaling factor increases \(\tau_i\), enabling stronger pruning and promoting token diversity.
+                </li>
+                <li><strong>Simple images (\(\text{erank}_{\text{input}} &lt; \text{erank}_{\text{avg}}\)):</strong>
+                  A smaller scaling factor keeps \(\tau_i\) low, preserving fine-grained, high-attention tokens.
+                </li>
+              </ul>
+            </div>
+            <br/>
+            <!-- <video poster="" id="tree4" controls muted height="100%">
+              <source src="s33.mp4" type="video/mp4" /> -->
+            </video>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- MathJax for LaTeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+  
+  <!-- Contribution Summary -->
+  <section class="hero is-small is-light">
+    <div class="hero-body">
+      <div class="container is-four-fifths">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 has-text-centered">Contribution Summary</h2>
+            <div class="content">
+              <p>Our work introduces an adaptive pruning framework that dynamically adjusts to image complexity. We make the following key contributions:</p>
+              <ul>
+              <li>
+                We provide the first erank-based characterization of how existing pruning methods
+                preserve feature diversity, and show how this retained diversity relates to hallucination behavior.
+              </li>
+
+              <li>
+                We reveal a consistent image-complexity–dependent preference between
+                attention-based and diversity-based pruning, explaining when each paradigm succeeds scceeds or fails
+                or fails.
+              </li>
+
+              <li>
+                We show that these empirical principles are actionable by improving existing
+                pruning methods and by presenting a minimal adaptive instantiation that achieves strong, consistent performance.
+                consistent performance across benchmarks.
+              </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LLaVA Models Section -->
+  <section class="hero is-small is-white">
+      <div class="hero-body">
+      <div class="container is-four-fifths">
+              <div class="columns is-centered">
+                  <div class="column is-four-fifths">
+                      <h2 class="title is-3 has-text-centered">Results</h2>
+                      <div class="content">
+                          <p>We evaluate our proposed adaptive pruning method on various Large Vision-Language Models to demonstrate its effectiveness and robustness across different benchmarks. Our method shows robust performance on simple images such as ScienceQA and on complex images such as POPE, effectively reducing redundancy while preserving essential information. This demonstrates a stable and reliable alternative to fixed or non-adaptive pruning methods.</p>
+                      </div>
+                      <br/>
+
+                      <h3 class="title is-4 has-text-centered">LLaVA-v1.5-7B</h3>
+                      <div class="has-text-centered">
+                          <img src="tt1.png" alt="Placeholder for LLaVA-v1.5-13B Results" />
+                      </div>
+                      <br/>
+
+                      <h3 class="title is-4 has-text-centered">LLaVA-v1.5-13B</h3>
+                      <div class="has-text-centered">
+                          <img src="tt2.png" alt="Placeholder for LLaVA-v1.5-13B Results" />
+                      </div>
+                      <br/>
+
+                      <h3 class="title is-4 has-text-centered">LLaVA-Next-7B</h3>
+                      <div class="has-text-centered">
+                          <img src="tt3.png" alt="Placeholder for LLaVA-Next-7B Results" />
+                      </div>
+                      <br/>
+
+                      <h3 class="title is-4 has-text-centered">Qwen2.5-VL-7B</h3>
+                      <div class="has-text-centered">
+                          <img src="tt4.png" alt="Placeholder for LLaVA-Next-7B Results" />
+                      </div>
+                      <br/>
+
+                      <h3 class="title is-4 has-text-centered">LLaVA-1.5-7B Hallucination (CHAIR Dataset)</h3>
+                      <div class="content">
+                          <p>Our analysis on the CHAIR dataset highlights the trade-off between pruning strategies: diversity-based methods capture more objects but increase hallucinations, while attention-based methods reduce hallucination but lose diversity. By adaptively balancing the two, our method achieves results close to using the full set of visual tokens, demonstrating both low hallucination and strong recall. </p>
+                      </div>
+                      <br/>
+
+                      <div class="has-text-centered">
+                          <img src="hh1.png" alt="Placeholder for Hallucination (CHAIR) Dataset Results" width="60%" />
+                      </div>
+                      <br/>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content has-text-centered">
+            <p>
+              This page was built using the
+              <a
+                href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                target="_blank"
+                >Academic Project Page Template</a
+              >
+              which was adopted from the <a
+                href="https://nerfies.github.io"
+                target="_blank"
+                >Nerfies</a
+              > project page. 
+              This website is licensed under a
+              <a
+                rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/"
+                target="_blank"
+                >Creative Commons Attribution-ShareAlike 4.0 International
+                License</a
+              >.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
 </body>
 </html>
