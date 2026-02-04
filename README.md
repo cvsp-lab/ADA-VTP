@@ -1,6 +1,6 @@
 # An Empirical Study of Attention and Diversity for Adaptive Visual Token Pruning in Large Vision-Language Models [ICLR 2026]
 
-<a href="https://sites.google.com/view/changwoobaek00/%ED%99%88">Changwoo Baek</a><sup>*</sup>, Jouwon Song<sup>*</sup>, Sohyeon Kim<sup>*</sup>, Kyeongbo Kong<sup>†</sup>
+<a href="https://sites.google.com/view/changwoobaek00/%ED%99%88">Changwoo Baek</a><sup>*</sup>, Jouwon Song<sup>*</sup>, <a href="https://www.pnu-cvsp.com/members/sohyeon">Sohyeon Kim</a><sup>*</sup>, <a href="https://www.pnu-cvsp.com/prof">Kyeongbo Kong</a><sup>†</sup>
 
 <sup>*</sup>Equal contribution, <sup>†</sup>Corresponding author
 
@@ -46,8 +46,8 @@ Stay tuned for updates! ⏳
 For questions or collaborations, please contact:
 - [Changwoo Baek](https://sites.google.com/view/changwoobaek00/%ED%99%88)
 - Jouwon Song
-- Sohyeon Kim
-- Kyeongbo Kong (Corresponding author)
+- [Sohyeon Kim](https://www.pnu-cvsp.com/members/sohyeon)
+- [Kyeongbo Kong](https://www.pnu-cvsp.com/prof) (Corresponding author)
 
 ## 🙏 Acknowledgements
 
