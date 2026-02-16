@@ -4,7 +4,7 @@
 
 <sup>*</sup>Equal contribution, <sup>†</sup>Corresponding author
 
-[**🌐 Project Page**](https://cvsp-lab.github.io/ADA-VTP/) | [**📄 Paper**](#) (Coming Soon)
+[**🌐 Project Page**](https://cvsp-lab.github.io/AgilePruner/) | [**📄 Paper**](#) (Coming Soon)
 
 ## 🎉 News
 

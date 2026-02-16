@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cvsp-lab.github.io/ADA-VTP/sitemap.xml
+Sitemap: https://cvsp-lab.github.io/AgilePruner/sitemap.xml
